@@ -20,7 +20,8 @@ const VLenBytes: CodecConstructor<None> = class VLenBytes implements Codec {
   encode(data: Uint8Array[]): Uint8Array {return new Uint8Array()}
   
 
-  decode(data: Uint8Array, out?: Uint8Array[]): Uint8Array[] {
+  decode(data: Uint8Array, out?: Uint8Array): Uint8Array {
+    /*
     let ptr = 0;
     const dataEnd = ptr + data.length;
     const length = read4Bytes(data.slice(0, HEADER_LENGTH));
@@ -44,10 +45,37 @@ const VLenBytes: CodecConstructor<None> = class VLenBytes implements Codec {
       output[i] = data.slice(ptr, ptr + l);
       ptr += l;
     }
+
+    const maxLength = output.reduce((max, entry) => Math.max(max, entry.length), 0)
+
+    const paddedOutput = output.map((entry) => {
+      if (entry.length < maxLength) {
+        const paddedEntry = new Uint8Array(maxLength);
+        paddedEntry.set(entry, 0); // Copy existing values to padded entry
+        return paddedEntry;
+      }
+      return entry; // No padding required for this entry
+    });
+
+    // Concatenate all arrays
+    const totalLength = paddedOutput.reduce((total, arr) => total + arr.length, 0);
+    const concatenatedArray = new Uint8Array(totalLength);
+    let offset = 0;
+    paddedOutput.forEach((uint8Array) => {
+      concatenatedArray.set(uint8Array, offset);
+      offset += uint8Array.length;
+    });
+
     if (out !== undefined) {
-      out = output.slice();
+      out.set(concatenatedArray);
     }
-    return output;
+    return concatenatedArray;
+    */
+
+    if (out !== undefined) {
+      out.set(data);
+    }
+    return data
   }
 };
 

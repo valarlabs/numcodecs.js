@@ -5,5 +5,5 @@ export interface CodecConstructor<T> {
 
 export interface Codec {
   encode(data: Uint8Array | Uint8Array[]): Uint8Array | Promise<Uint8Array>;
-  decode(data: Uint8Array, out?: Uint8Array | Uint8Array[]): Uint8Array | Uint8Array[] | Promise<Uint8Array> | Promise<Uint8Array[]>;
+  decode(data: Uint8Array, out?: Uint8Array ): Uint8Array |  Promise<Uint8Array>;
 }
